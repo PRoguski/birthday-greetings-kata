@@ -1,4 +1,6 @@
-package it.xpug.kata.birthday_greetings;
+package it.xpug.kata.birthday_greetings.domain;
+
+import it.xpug.kata.birthday_greetings.XDate;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,6 +17,12 @@ import javax.mail.internet.MimeMessage;
 
 public class BirthdayService {
 
+	private MessageService messageService;
+
+	public BirthdayService(MessageService messageService) {
+		this.messageService = messageService;
+	}
+
 	public void sendGreetings(String fileName, XDate xDate, String smtpHost, int smtpPort) throws IOException, ParseException, AddressException, MessagingException {
 		BufferedReader in = new BufferedReader(new FileReader(fileName));
 		String str = "";
@@ -27,25 +35,10 @@ public class BirthdayService {
 				String body = "Happy Birthday, dear %NAME%!".replace("%NAME%", employee.getFirstName());
 				String subject = "Happy Birthday!";
 				sendMessage(smtpHost, smtpPort, "sender@here.com", subject, body, recipient);
+				messageService.send(subject,body,recipient);
 			}
 		}
 	}
 
-	private void sendMessage(String smtpHost, int smtpPort, String sender, String subject, String body, String recipient) throws AddressException, MessagingException {
-		// Create a mail session
-		java.util.Properties props = new java.util.Properties();
-		props.put("mail.smtp.host", smtpHost);
-		props.put("mail.smtp.port", "" + smtpPort);
-		Session session = Session.getInstance(props, null);
 
-		// Construct the message
-		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(sender));
-		msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-		msg.setSubject(subject);
-		msg.setText(body);
-
-		// Send the message
-		Transport.send(msg);
-	}
 }
