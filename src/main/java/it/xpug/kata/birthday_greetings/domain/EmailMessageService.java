@@ -20,7 +20,7 @@ public class EmailMessageService implements MessageService {
         this.sender = sender;
     }
 
-    private void sendMessage(String subject, String body, String recipient) throws AddressException, MessagingException {
+    private void sendMessage(String subject, String body, String recipient) throws MessagingException {
         // Create a mail session
         java.util.Properties props = new java.util.Properties();
         props.put("mail.smtp.host", this.smtpHost);
