@@ -1,11 +1,11 @@
 package it.xpug.kata.birthday_greetings.domain;
 
-public abstract class Messagess {
+public abstract class Messages {
     private String body;
     private  String subject;
     private  String recipient;
 
-    public Messagess(String body, String subject, String recipient) {
+    public Messages(String body, String subject, String recipient) {
         this.body = body;
         this.subject = subject;
         this.recipient = recipient;

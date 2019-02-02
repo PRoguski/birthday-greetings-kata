@@ -1,6 +1,6 @@
 package it.xpug.kata.birthday_greetings.domain;
 
-public class BirthdayMessage extends Messagess {
+public class BirthdayMessage extends Messages {
 
     private BirthdayMessage(String body, String subject, String recipient) {
         super(body, subject, recipient);

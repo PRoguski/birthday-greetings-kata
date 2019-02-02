@@ -54,7 +54,7 @@ public class EmailMessageService implements MessageService {
 
 
     @Override
-    public void send(Messagess messagess) {
+    public void send(Messages messagess) {
         send(
                 messagess.getSubject(),
                 messagess.getBody(),
