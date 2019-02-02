@@ -3,6 +3,8 @@ package it.xpug.kata.birthday_greetings;
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
 import it.xpug.kata.birthday_greetings.domain.*;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +35,7 @@ public class AcceptanceTest {
     @Test
     public void willSendGreetings_whenItsSomebodysBirthday() throws Exception {
 
-        birthdayService.sendGreetings(new XDate("2008/10/08"));
+        birthdayService.sendGreetings(toLocalDate("1982/10/08"));
 
         assertEquals("message not sent?", 1, mailServer.getReceivedEmailSize());
         SmtpMessage message = (SmtpMessage) mailServer.getReceivedEmail().next();
@@ -47,8 +49,12 @@ public class AcceptanceTest {
 
     @Test
     public void willNotSendEmailsWhenNobodysBirthday() throws Exception {
-        birthdayService.sendGreetings(new XDate("2008/01/01"));
+        birthdayService.sendGreetings(toLocalDate("1981/10/08"));
 
-        assertEquals("what? messages?", 0, mailServer.getReceivedEmailSize());
+        assertEquals("should return 0 messages", 0, mailServer.getReceivedEmailSize());
+    }
+
+    private LocalDate toLocalDate(String yyyyMMdd) {
+        return LocalDate.parse(yyyyMMdd, DateTimeFormat.forPattern("yyyy/MM/dd"));
     }
 }

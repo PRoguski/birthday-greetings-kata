@@ -1,6 +1,6 @@
 package it.xpug.kata.birthday_greetings.domain;
 
-import it.xpug.kata.birthday_greetings.XDate;
+import org.joda.time.LocalDate;
 
 import java.util.List;
 
@@ -14,12 +14,9 @@ public class BirthdayService {
         this.employeeRepository = employeeRepository;
     }
 
-    public void sendGreetings(XDate xDate) {
-        List<Employee> employee = employeeRepository.findEmployeeWhereBirthDayIsIn(xDate);
-        employee.forEach(empl -> {
-            messageService.send(BirthdayMessage.of(empl));
-        });
+    public void sendGreetings(LocalDate date) {
+        List<Employee> employee = employeeRepository.findEmployeeWhereBirthDayIsIn(date);
+        employee.forEach(empl -> messageService.send(BirthdayMessage.of(empl)));
     }
-
 
 }

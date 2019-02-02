@@ -1,6 +1,8 @@
 package it.xpug.kata.birthday_greetings.domain;
 
-import it.xpug.kata.birthday_greetings.XDate;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -37,7 +39,8 @@ public class FileEmployeeRepositoryImpl implements EmployeeRepository {
     private Employee parseFromCSVLine(String str) {
         String[] employeeData = str.split(", ");
         try {
-            return new Employee(employeeData[1], employeeData[0], employeeData[2], employeeData[3]);
+            LocalDate biDate = LocalDate.parse(employeeData[2], DateTimeFormat.forPattern("yyyy/MM/dd"));
+            return new Employee(employeeData[1], employeeData[0], biDate, employeeData[3]);
         } catch (ParseException e) {
             e.printStackTrace();
             throw new IllegalStateException("TODO");
@@ -45,9 +48,9 @@ public class FileEmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public List<Employee> findEmployeeWhereBirthDayIsIn(XDate xDate) {
+    public List<Employee> findEmployeeWhereBirthDayIsIn(LocalDate date) {
         return employees.stream()
-                .filter(employee -> employee.isBirthday(xDate))
+                .filter(employee -> employee.isBirthday(date))
                 .collect(Collectors.toList());
     }
 }

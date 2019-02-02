@@ -1,29 +1,36 @@
 package it.xpug.kata.birthday_greetings;
-import static org.junit.Assert.*;
 
 import it.xpug.kata.birthday_greetings.domain.Employee;
-import org.junit.*;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class EmployeeTest {
 
-	@Test
-	public void testBirthday() throws Exception {
-		Employee employee = new Employee("foo", "bar", "1990/01/31", "a@b.c");
-		assertFalse("not his birthday", employee.isBirthday(new XDate("2008/01/30")));
-		assertTrue("his birthday", employee.isBirthday(new XDate("2008/01/31")));
-	}
+    @Test
+    public void testBirthday() throws Exception {
+        Employee employee = new Employee("foo", "bar", toLocalDate("1990/01/31"), "a@b.c");
+        assertFalse("not his birthday", employee.isBirthday(toLocalDate("2008/01/30")));
+        assertTrue("his birthday", employee.isBirthday(toLocalDate("1990/01/31")));
+    }
 
-	@Test
-	public void equality() throws Exception {
-		Employee base = new Employee("First", "Last", "1999/09/01", "first@last.com");
-		Employee same = new Employee("First", "Last", "1999/09/01", "first@last.com");
-		Employee different = new Employee("First", "Last", "1999/09/01", "boom@boom.com");
+    @Test
+    public void equality() throws Exception {
+        Employee base = new Employee("First", "Last", toLocalDate("1999/09/01"), "first@last.com");
+        Employee same = new Employee("First", "Last", toLocalDate("1999/09/01"), "first@last.com");
+        Employee different = new Employee("First", "Last", toLocalDate("1999/09/01"), "boom@boom.com");
 
-		assertFalse(base.equals(null));
-		assertFalse(base.equals(""));
-		assertTrue(base.equals(same));
-		assertFalse(base.equals(different));
-	}
+        assertFalse(base.equals(null));
+        assertFalse(base.equals(""));
+        assertTrue(base.equals(same));
+        assertFalse(base.equals(different));
+    }
+
+    private LocalDate toLocalDate(String yyyy_mm_dd) {
+        return LocalDate.parse(yyyy_mm_dd, DateTimeFormat.forPattern("yyyy/MM/dd"));
+    }
 }
