@@ -4,9 +4,9 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 public class EmailMessageService implements MessageService {
 
@@ -20,11 +20,16 @@ public class EmailMessageService implements MessageService {
         this.sender = sender;
     }
 
-    private void sendMessage(String subject, String body, String recipient) throws MessagingException {
-        // Create a mail session
-        java.util.Properties props = new java.util.Properties();
+    private Properties sessionProperties() {
+        Properties props = new Properties();
         props.put("mail.smtp.host", this.smtpHost);
         props.put("mail.smtp.port", "" + this.smtpPort);
+        return props;
+    }
+
+    private void sendMessage(String subject, String body, String recipient) throws MessagingException {
+        // Create a mail session
+        Properties props = sessionProperties();
         Session session = Session.getInstance(props, null);
 
         // Construct the message
@@ -38,11 +43,22 @@ public class EmailMessageService implements MessageService {
         Transport.send(msg);
     }
 
-    public void send(String subject, String body, String recipient) {
+
+    private void send(String subject, String body, String recipient) {
         try {
             sendMessage(subject, body, recipient);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Override
+    public void send(Messagess messagess) {
+        send(
+                messagess.getSubject(),
+                messagess.getBody(),
+                messagess.getRecipient()
+        );
     }
 }

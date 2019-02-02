@@ -1,8 +1,6 @@
 package it.xpug.kata.birthday_greetings;
 
-import it.xpug.kata.birthday_greetings.domain.BirthdayService;
-import it.xpug.kata.birthday_greetings.domain.EmailMessageService;
-import it.xpug.kata.birthday_greetings.domain.MessageService;
+import it.xpug.kata.birthday_greetings.domain.*;
 
 import java.io.*;
 import java.text.ParseException;
@@ -14,8 +12,9 @@ public class Main {
 
     public static void main(String[] args) throws AddressException, IOException, ParseException, MessagingException {
         MessageService message = new EmailMessageService("localhost", 25, "sender@here.com");
-        BirthdayService service = new BirthdayService(message);
-        service.sendGreetings("employee_data.txt", new XDate());
+        EmployeeRepository employeeRepository = new FileEmployeeRepositoryImpl("employee_data.txt");
+        BirthdayService service = new BirthdayService(message, employeeRepository);
+        service.sendGreetings(new XDate());
     }
 
 }
