@@ -27,7 +27,7 @@ public class EmailMessageService implements MessageService {
         return props;
     }
 
-    private void sendMessage(String subject, String body, String recipient) throws MessagingException {
+    private void sendEmail(String subject, String body, String recipient) throws MessagingException {
         // Create a mail session
         Properties props = sessionProperties();
         Session session = Session.getInstance(props, null);
@@ -46,9 +46,9 @@ public class EmailMessageService implements MessageService {
 
     private void send(String subject, String body, String recipient) {
         try {
-            sendMessage(subject, body, recipient);
+            sendEmail(subject, body, recipient);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            throw new SendEmialException("Error during sending email to " + recipient + ":  " + e);
         }
     }
 

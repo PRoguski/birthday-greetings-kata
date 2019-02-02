@@ -36,14 +36,18 @@ public class FileEmployeeRepositoryImpl implements EmployeeRepository {
 
     }
 
-    private Employee parseFromCSVLine(String str) {
-        String[] employeeData = str.split(", ");
+    private Employee parseFromCSVLine(String line) {
+        String[] employeePart = line.split(", ");
+
+        if (employeePart.length != 4)
+            throw new FileRepositoryException("Error during parsing line: " + line);
+
         try {
-            LocalDate biDate = LocalDate.parse(employeeData[2], DateTimeFormat.forPattern("yyyy/MM/dd"));
-            return new Employee(employeeData[1], employeeData[0], biDate, employeeData[3]);
+            LocalDate biDate = LocalDate.parse(employeePart[2], DateTimeFormat.forPattern("yyyy/MM/dd"));
+            return new Employee(employeePart[1], employeePart[0], biDate, employeePart[3]);
         } catch (ParseException e) {
             e.printStackTrace();
-            throw new IllegalStateException("TODO");
+            throw new FileRepositoryException("Error during parse employee: " + e + " line:" + line);
         }
     }
 

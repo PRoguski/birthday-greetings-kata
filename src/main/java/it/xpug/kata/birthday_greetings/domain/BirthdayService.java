@@ -16,7 +16,7 @@ public class BirthdayService {
 
     public void sendGreetings(LocalDate date) {
         List<Employee> employee = employeeRepository.findEmployeeWhereBirthDayIsIn(date);
-        employee.forEach(empl -> messageService.send(BirthdayMessage.of(empl)));
+        employee.forEach(empl -> messageService.send(BirthdayMessage.forEmployee(empl)));
     }
 
 }

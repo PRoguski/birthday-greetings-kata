@@ -6,7 +6,7 @@ public class BirthdayMessage extends Messages {
         super(body, subject, recipient);
     }
 
-    public static BirthdayMessage of(Employee employee1) {
+    public static BirthdayMessage forEmployee(Employee employee1) {
         String recipient = employee1.getEmail();
         String body = "Happy Birthday, dear %NAME%!".replace("%NAME%", employee1.getFirstName());
         String subject = "Happy Birthday!";
