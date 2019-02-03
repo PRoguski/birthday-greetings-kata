@@ -1,6 +1,5 @@
 package it.xpug.kata.birthday_greetings.domain;
 
-import it.xpug.kata.birthday_greetings.XDate;
 import org.joda.time.LocalDate;
 
 import java.text.ParseException;
