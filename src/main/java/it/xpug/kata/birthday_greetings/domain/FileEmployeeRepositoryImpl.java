@@ -2,7 +2,6 @@ package it.xpug.kata.birthday_greetings.domain;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
